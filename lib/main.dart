@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loan_application/firebase_options.dart';
 import 'package:loan_application/utils/colors.dart';
 import 'package:loan_application/views/splash/screen/splash_screen.dart';
@@ -18,7 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: AppColors.secondaryColor),
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.secondaryColor,
+        textTheme: GoogleFonts.montserratTextTheme(),
+      ),
+
       home: SplashScreen(),
     );
   }
