@@ -6,8 +6,7 @@ import 'package:loan_application/views/authentication/widgets/enter_otp_bar.dart
 Widget bottomAppBarWidget(int index, Function() nextStep, Function() prevStep) {
   List<Widget> forms = [
     createAccountWithPhone(index, nextStep),
-    enterOtpBar(index, nextStep, prevStep),
-    createPassword(index, nextStep, prevStep),
+    CreatePasswordScreen(nextStep: nextStep, prevStep: prevStep),
   ];
   return forms[index];
 }

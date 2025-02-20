@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:loan_application/services/auth_service.dart';
 import 'package:loan_application/utils/colors.dart';
 import 'package:loan_application/utils/custom_widgets/custom_container.dart';
 import 'package:loan_application/utils/custom_widgets/custom_text.dart';
@@ -7,6 +9,8 @@ import 'package:loan_application/views/authentication/screens/sign_in_screen.dar
 import 'package:loan_application/views/authentication/widgets/bottom_app_bar_clipper.dart';
 
 Widget createAccountWithPhone(int index, Function() nextStep) {
+  final TextEditingController phoneNoController = TextEditingController();
+  final GlobalKey<FormState> formkey = GlobalKey();
   return ClipPath(
     clipper: BottomAppBarClipper(),
     child: BottomAppBar(
@@ -53,14 +57,30 @@ Widget createAccountWithPhone(int index, Function() nextStep) {
                   ),
                 ),
                 SizedBox(width: 15),
-                Expanded(
-                  child: SizedBox(
-                    height: 55,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Please enter your mobile no.',
-                        labelStyle: TextStyle(fontSize: 14),
+                Form(
+                  key: formkey,
+                  child: Expanded(
+                    child: SizedBox(
+                      height: 55,
+                      child: TextFormField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10)
+                        ],
+                        keyboardType: TextInputType.number, 
+                        controller: phoneNoController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Please enter your mobile no.',
+                          labelStyle: TextStyle(fontSize: 14),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your mobile no.';
+                          } else if (value.length != 10) {
+                            return 'Please enter must be 10 characters.';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -88,8 +108,13 @@ Widget createAccountWithPhone(int index, Function() nextStep) {
             SizedBox(height: 15),
 
             GestureDetector(
-              onTap: () {
-                nextStep();
+              onTap: ()async {
+                if (formkey.currentState!.validate()) {
+                 await AuthService().verifyPhoneNumber(
+                    '+91${phoneNoController.text.trim()}',
+                  );
+                  nextStep();
+                }
               },
               child: CustomContainer(
                 height: 50,
@@ -110,10 +135,7 @@ Widget createAccountWithPhone(int index, Function() nextStep) {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  Get.to(
-                    () => SignInScreen(),
-                    transition: Transition.downToUp,
-                  );
+                  Get.to(() => SignInScreen(), transition: Transition.downToUp);
                 },
                 child: CustomText(
                   text: 'Existing User? Sign in',

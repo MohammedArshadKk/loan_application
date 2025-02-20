@@ -40,6 +40,8 @@ dependencies:
   get: ^4.7.2
   google_fonts: ^6.2.1
   flutter_otp_text_field: ^1.4.0+2
+  intl: ^0.20.2
+  shimmer: ^3.0.0
   
 
 dev_dependencies:

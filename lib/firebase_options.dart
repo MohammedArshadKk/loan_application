@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'loan-application-3fba0',
     storageBucket: 'loan-application-3fba0.firebasestorage.app',
   );
+
 }

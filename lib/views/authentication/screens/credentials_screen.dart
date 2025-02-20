@@ -16,7 +16,6 @@ class CredentialsScreen extends StatefulWidget {
 class _CredentialsScreenState extends State<CredentialsScreen> {
   List<Widget> contents = [
     phoneNumberRegisterContentWidget(),
-    otpContentWidget(),
     createPasswordContent(),
   ];
   int index = 0;
